@@ -1,0 +1,234 @@
+/* ==========================================================================
+   26·10·2025 - Global Romantic Design System
+   ========================================================================== */
+
+:root {
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-handwriting: 'Caveat', 'Dancing Script', cursive;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Color Palette: Warm Twilight Velvet, Rose Gold & Champagne */
+  --bg-deep: #0e0912;
+  --bg-night: #180d1e;
+  --bg-card: rgba(25, 14, 30, 0.88);
+  --bg-card-hover: rgba(38, 20, 46, 0.92);
+  --bg-card-border: rgba(240, 180, 200, 0.15);
+  --bg-card-border-hover: rgba(240, 180, 200, 0.35);
+
+  --rose-primary: #e8637e;
+  --rose-light: #f7a2b4;
+  --rose-glow: rgba(232, 99, 126, 0.28);
+  --gold-accent: #e5b869;
+  --gold-glow: rgba(229, 184, 105, 0.3);
+  --wine-dark: #3a1523;
+
+  --text-main: #fbf5ed;
+  --text-muted: #cdbac8;
+  --text-subtle: #988599;
+
+  --shadow-subtle: 0 8px 32px rgba(0, 0, 0, 0.37);
+  --shadow-glow: 0 0 35px rgba(232, 99, 126, 0.3);
+  --shadow-polaroid: 0 15px 35px rgba(0, 0, 0, 0.45);
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-deep);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: 
+      radial-gradient(ellipse at 20% 15%, rgba(130, 35, 68, 0.25) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 45%, rgba(85, 30, 95, 0.22) 0%, transparent 60%),
+      radial-gradient(circle at 50% 85%, rgba(140, 50, 75, 0.2) 0%, transparent 50%);
+    transform: translateZ(0);
+  }
+}
+
+/* Custom romantic scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--rose-primary), var(--gold-accent));
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--rose-light);
+}
+
+/* Typography Utilities */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-handwriting {
+  font-family: var(--font-handwriting);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #fff 0%, #f7c3cf 50%, var(--gold-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #ffecc2 0%, var(--gold-accent) 50%, #d49a37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Buttons */
+.btn-romantic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #c93b61 0%, #a02847 100%);
+  color: #fff;
+  border: 1px solid rgba(255, 200, 215, 0.3);
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px var(--rose-glow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transition: 0.6s ease;
+  }
+
+  &:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 14px 30px rgba(232, 99, 126, 0.45);
+    border-color: rgba(255, 215, 225, 0.6);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+}
+
+.btn-secondary-romantic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 24px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: var(--rose-light);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Glass Card */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-subtle);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    border-color: var(--bg-card-border-hover);
+  }
+}
+
+/* Romantic Animations */
+@keyframes heartFloat {
+  0% {
+    transform: translateY(0) scale(0.8) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-110vh) scale(1.1) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+@keyframes pulseHeart {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 15px var(--rose-primary));
+  }
+}
+
+@keyframes softGlow {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-heart {
+  animation: pulseHeart 2s infinite ease-in-out;
+}
