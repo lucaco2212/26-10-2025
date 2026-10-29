@@ -1,6 +1,5 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { MusicService } from '../../services/music.service';
 
 export interface PolaroidPhoto {
@@ -15,7 +14,7 @@ export interface PolaroidPhoto {
 @Component({
   selector: 'app-photo-gallery',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   template: `
     <section id="fotos" class="gallery-section" aria-label="Nuestros Recuerdos">
       <div class="section-badge">
@@ -27,12 +26,6 @@ export interface PolaroidPhoto {
       <p class="section-subtitle">
         Cada fotografía es una pausa en el tiempo donde fuimos infinitamente felices.
       </p>
-
-      <div class="gallery-controls">
-        <button class="btn-secondary-romantic" (click)="openCustomizer()">
-          <span>📷 Cambiar o subir fotos</span>
-        </button>
-      </div>
 
       <!-- Polaroid Grid -->
       <div class="polaroid-grid">
@@ -88,46 +81,6 @@ export interface PolaroidPhoto {
           </div>
         </div>
       }
-
-      <!-- Photo Manager / Customizer Modal -->
-      @if (showCustomizer()) {
-        <div class="customizer-overlay" (click)="showCustomizer.set(false)">
-          <div class="customizer-modal glass-card" (click)="$event.stopPropagation()">
-            <div class="customizer-header">
-              <h3>Personalizar Fotografías</h3>
-              <button class="close-btn" (click)="showCustomizer.set(false)">✕</button>
-            </div>
-            <p class="customizer-desc">
-              Puedes subir tus fotos reales directamente desde tu computadora o teléfono. ¡Se guardarán en tu navegador al instante!
-            </p>
-
-            <div class="customizer-list">
-              <div *ngFor="let photo of photos(); let i = index" class="customizer-item">
-                <div class="item-thumb">
-                  <img [src]="photo.url" alt="preview">
-                </div>
-                <div class="item-fields">
-                  <label class="upload-btn-label">
-                    <span>📁 Subir imagen propia (Foto {{ i + 1 }})</span>
-                    <input type="file" accept="image/*" (change)="onFileUpload($event, i)">
-                  </label>
-                  <input type="text" [(ngModel)]="photo.caption" placeholder="Título / Frase linda" (ngModelChange)="savePhotos()">
-                  <input type="text" [(ngModel)]="photo.date" placeholder="Fecha del recuerdo" (ngModelChange)="savePhotos()">
-                </div>
-              </div>
-            </div>
-
-            <div class="customizer-footer">
-              <button class="btn-secondary-romantic" (click)="resetDefaultPhotos()">
-                <span>Restaurar fotos originales</span>
-              </button>
-              <button class="btn-romantic" (click)="showCustomizer.set(false)">
-                <span>Listo ❤️</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      }
     </section>
   `,
   styles: [`
@@ -168,10 +121,6 @@ export interface PolaroidPhoto {
       font-size: 1.05rem;
       color: var(--text-muted);
       line-height: 1.7;
-    }
-
-    .gallery-controls {
-      margin-bottom: 45px;
     }
 
     /* Polaroid Grid */
@@ -397,125 +346,6 @@ export interface PolaroidPhoto {
       }
     }
 
-    /* Customizer */
-    .customizer-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 5, 14, 0.85);
-      backdrop-filter: blur(10px);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .customizer-modal {
-      width: 100%;
-      max-width: 620px;
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 28px;
-      text-align: left;
-    }
-
-    .customizer-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-
-      h3 {
-        font-family: var(--font-serif);
-        font-size: 1.4rem;
-        color: #fff;
-      }
-
-      .close-btn {
-        background: none;
-        border: none;
-        color: var(--text-muted);
-        font-size: 20px;
-        cursor: pointer;
-      }
-    }
-
-    .customizer-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
-
-    .customizer-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .customizer-item {
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.04);
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-
-      .item-thumb {
-        width: 68px;
-        height: 68px;
-        border-radius: 6px;
-        overflow: hidden;
-        flex-shrink: 0;
-
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-      }
-
-      .item-fields {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-
-        input[type="text"] {
-          background: rgba(0, 0, 0, 0.4);
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          color: #fff;
-          padding: 6px 10px;
-          border-radius: 6px;
-          font-size: 0.85rem;
-        }
-
-        .upload-btn-label {
-          display: inline-block;
-          font-size: 0.82rem;
-          color: var(--rose-light);
-          cursor: pointer;
-
-          input[type="file"] {
-            display: none;
-          }
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-    }
-
-    .customizer-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
@@ -531,7 +361,6 @@ export class PhotoGalleryComponent {
   private music = inject(MusicService);
 
   public activePhotoIndex = signal<number | null>(null);
-  public showCustomizer = signal<boolean>(false);
 
   private defaultPhotos: PolaroidPhoto[] = [
     {
@@ -610,28 +439,6 @@ export class PhotoGalleryComponent {
     if (cur !== null) {
       const prev = (cur - 1 + this.photos().length) % this.photos().length;
       this.activePhotoIndex.set(prev);
-    }
-  }
-
-  public openCustomizer(): void {
-    this.showCustomizer.set(true);
-  }
-
-  public onFileUpload(event: Event, index: number): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const base64 = e.target?.result as string;
-        this.photos.update(list => {
-          const updated = [...list];
-          updated[index] = { ...updated[index], url: base64 };
-          return updated;
-        });
-        this.savePhotos();
-      };
-      reader.readAsDataURL(file);
     }
   }
 

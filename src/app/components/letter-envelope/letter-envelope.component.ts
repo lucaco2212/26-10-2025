@@ -1,12 +1,11 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { MusicService } from '../../services/music.service';
 
 @Component({
   selector: 'app-letter-envelope',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   template: `
     <section id="carta" class="letter-section" aria-label="Nuestra Carta">
       <div class="section-badge">
@@ -82,35 +81,12 @@ import { MusicService } from '../../services/music.service';
               <button class="btn-romantic" (click)="openFullModal()">
                 <span>📜 Leer carta completa</span>
               </button>
-              <button class="btn-secondary-romantic" (click)="toggleEditMode()">
-                <span>✏️ {{ isEditing() ? 'Cerrar editor' : 'Personalizar mensaje' }}</span>
-              </button>
               <button class="btn-secondary-romantic" (click)="isOpen.set(false)">
                 <span>Cerrar sobre</span>
               </button>
             </div>
           }
         </div>
-
-        <!-- Optional in-place editor for Lucas to customize quickly -->
-        @if (isEditing()) {
-          <div class="letter-editor-box glass-card">
-            <h3>Personalizar el contenido de la carta</h3>
-            <label>
-              <span>Saludo:</span>
-              <input type="text" [(ngModel)]="letterSalutation" (ngModelChange)="saveLetterData()">
-            </label>
-            <label>
-              <span>Cuerpo de la carta:</span>
-              <textarea rows="7" [(ngModel)]="letterFullContent" (ngModelChange)="saveLetterData()"></textarea>
-            </label>
-            <label>
-              <span>Firma:</span>
-              <input type="text" [(ngModel)]="letterSender" (ngModelChange)="saveLetterData()">
-            </label>
-            <p class="editor-note">💾 Tus cambios se guardan automáticamente en este navegador.</p>
-          </div>
-        }
       </div>
 
       <!-- Full Screen Reading Modal -->
@@ -395,53 +371,6 @@ import { MusicService } from '../../services/music.service';
       margin-top: 25px;
     }
 
-    /* In-place editor */
-    .letter-editor-box {
-      width: 100%;
-      max-width: 600px;
-      margin-top: 35px;
-      padding: 24px;
-      text-align: left;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-
-      h3 {
-        font-family: var(--font-serif);
-        font-size: 1.2rem;
-        color: var(--rose-light);
-      }
-
-      label {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        font-size: 0.9rem;
-        color: var(--text-muted);
-
-        input, textarea {
-          background: rgba(14, 9, 18, 0.7);
-          border: 1px solid rgba(247, 162, 180, 0.3);
-          border-radius: 8px;
-          color: #fff;
-          padding: 10px 14px;
-          font-family: var(--font-sans);
-          font-size: 0.95rem;
-
-          &:focus {
-            outline: none;
-            border-color: var(--rose-primary);
-            box-shadow: 0 0 10px var(--rose-glow);
-          }
-        }
-      }
-
-      .editor-note {
-        font-size: 0.8rem;
-        color: var(--gold-accent);
-      }
-    }
-
     /* Modal */
     .modal-backdrop {
       position: fixed;
@@ -566,7 +495,6 @@ export class LetterEnvelopeComponent {
 
   public isOpen = signal<boolean>(false);
   public showFullModal = signal<boolean>(false);
-  public isEditing = signal<boolean>(false);
 
   public letterSalutation = signal<string>('Para mi amor, Pía Valentina:');
   public letterFullContent = signal<string>(
@@ -592,10 +520,6 @@ export class LetterEnvelopeComponent {
   public openFullModal(): void {
     this.showFullModal.set(true);
     this.music.playChimeSound();
-  }
-
-  public toggleEditMode(): void {
-    this.isEditing.update(v => !v);
   }
 
   public letterSnippet(): string {
